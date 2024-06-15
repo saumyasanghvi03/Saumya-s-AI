@@ -73,13 +73,9 @@ If you have any suggestions, questions, or bugs to report, please open an issue 
 
 ## ✍️ Questions
 
-If you have any questions or ideas, feel free to reach out at aguilare@lakeforest.edu!
+If you have any questions or ideas, feel free to reach out at ingenious.developers.community@gmail.com
 
 ## ⚠️ Disclaimer
 Buellerbot was built for *educational* purposes only. As in, you should use any free-time gained with BB to educate yourself in what matters. 
 
 *"Life moves pretty fast. If you don't stop and look around once in a while, you could miss it."* - Ferris Bueller's Day Off, 1986
-
-## 🏆 Acknowledgements
-
-S/O to Michael, thank you Michael
