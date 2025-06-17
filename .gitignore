@@ -1,2 +1,58 @@
-/env/
-.env
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+build/
+dist/
+
+# IDE specific
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Data files
+data/*.json
+data/*.csv
+data/*.db
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Coverage
+.coverage
+coverage/
+.nyc_output/
+
+# Pinecone / AI related (if any specific local files are generated)
+.pinecone/
+
+# Jupyter Notebook
+.ipynb_checkpoints/

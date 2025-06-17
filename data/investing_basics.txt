@@ -1,0 +1,8 @@
+Question: What is investing?
+Answer: Investing is the process of buying assets that you expect to increase in value over time or generate income, or both. Common investment assets include stocks, bonds, real estate, and mutual funds.
+
+Question: What is the difference between saving and investing?
+Answer: Saving typically involves putting money aside in safe, easily accessible accounts (like savings accounts) for short-term goals or emergencies. Investing usually involves taking on more risk with the potential for higher returns, typically for long-term goals.
+
+Question: What is a stock?
+Answer: A stock (also known as equity) represents ownership in a publicly traded company. When you buy a company's stock, you become a part-owner of that company. The value of a stock can go up or down based on the company's performance and market conditions.
