@@ -1,81 +1,152 @@
-# Welcome to BuellerBot V1 👋
+# AI-Powered Financial Literacy Chat Widget
 
-🤖 Meet BuellerBot: Your AI-powered clone that joins online meetings, listens for your name, and then responds with *your* voice - all so you don’t have to. 
+This project aims to create an embeddable chat widget that provides financial literacy information using AI. It features a Flask backend with a RAG (Retrieval Augmented Generation) pipeline using LangChain, OpenAI, and Pinecone, and a (placeholder) React frontend.
 
-## Realtime Demo of BuellerBot in Action!
+**Current Status:**
+*   **Backend:** Developed and functional up to the point of requiring real API keys and network access to external services (OpenAI, Pinecone).
+*   **Frontend:** **Placeholder code only.** The React frontend could not be built or tested due to a non-functional `npm` environment in the development sandbox. The provided React code offers a structural starting point.
 
-https://github.com/EdwardIPAguilar/BuellerBot/assets/59296703/7bc4bfa1-8104-4ffb-964f-87159ac144a5
+## Project Structure
 
-## Table of Contents
+```
+.
+├── backend/            # Flask backend application
+│   ├── app.py          # Main Flask app with /chat API
+│   ├── populate_pinecone.py # Script to load data into Pinecone
+│   ├── requirements.txt# Python dependencies
+│   ├── .env            # For API keys (gitignored, use .env.template)
+│   └── ...
+├── data/               # Sample financial literacy documents
+│   ├── savings_faq.txt
+│   └── investing_basics.txt
+├── frontend/           # React frontend application (Placeholder)
+│   └── chat-widget/
+│       ├── src/
+│       │   ├── components/ # React components (ChatPopup, ChatWidget, etc.)
+│       │   │   ├── ChatPopup.jsx
+│       │   │   ├── ChatWidget.jsx
+│       │   │   ├── MessageInput.jsx
+│       │   │   └── MessageList.jsx
+│       │   ├── App.jsx     # Main App component
+│       │   ├── main.jsx    # Vite entry point
+│       │   └── App.css     # Basic styles
+│       ├── package.json    # Frontend dependencies (Vite setup)
+│       └── ...
+└── README.md           # This file
+```
 
-1. [Installation](#installation)
-2. [Contributing](#contributing)
-3. [Questions](#questions)
+## 1. Backend Setup
 
-## ⚙️ Installation
+The backend is a Flask application that serves a `/chat` API endpoint.
 
 ### Prerequisites
-Python >=3.8.0
-An OpenAI API key that can access OpenAI API (set up a paid account OpenAI account)
-An ElevenLabs API key that can access the EL API (set up a paid account EL account)
-Mac OS (Not yet tested on others!)
+*   Python 3.8+
+*   Access to an OpenAI API key
+*   Access to a Pinecone API key and environment details
 
-### Setting Up Blackhole For Source Audio Intake
-One of the cool things about BuellerBot is that it can take in source audio, that way you don't need to worry about audio feedback during meetings. It can do this by using the blackhole download, which you can get here for free: https://existential.audio/blackhole/
+### Installation & Setup
+1.  **Clone the repository (if you haven't already).**
+2.  **Navigate to the `backend` directory:**
+    ```bash
+    cd backend
+    ```
+3.  **Create a Python virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+4.  **Install Python dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+5.  **Configure API Keys:**
+    *   Make a copy of `.env.template` (if provided, otherwise create `.env` directly).
+        *   *Developer Note: I will create a `.env.template` in the next step.*
+    *   Edit the `.env` file in the `backend` directory and add your actual API keys:
+        ```env
+        # Pinecone API Key
+        PINECONE_API_KEY="YOUR_PINECONE_API_KEY"
+        PINECONE_ENVIRONMENT="YOUR_PINECONE_ENVIRONMENT" # e.g., "us-west1-gcp"
 
-  - Once you've downloaded blackhole (make sure it's the 2ch version), you'll need to setup a MIDI multi-output device. This is super easy on MacOS.
+        # OpenAI API Key
+        OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
+        ```
 
-  - All you've got to do is open the 'Audio MIDI setup' app, click on the plus button on the bottom right-hand corner, click multi-output-device, and then be sure to select blackhole + any other devices you want your audio output to route to. Viola, audio device created!
+### Populating the Vector Database
+Before running the main application, you need to populate your Pinecone index with the financial literacy data.
+1.  **Ensure your `.env` file is correctly configured with your API keys.**
+2.  **Run the `populate_pinecone.py` script from the `backend` directory:**
+    ```bash
+    python populate_pinecone.py
+    ```
+    This script will:
+    *   Load documents from the `../data/` directory.
+    *   Chunk the documents.
+    *   Generate embeddings using OpenAI.
+    *   Create a Pinecone index (default: `financial-literacy-widget`) if it doesn't exist.
+    *   Store the documents and their embeddings in the index.
 
-  - Now, to make sure that audio is actually getting passed through to blackhole as well as your other output devices, be sure to right click on the newly created output device on the menu on the left-side and select 'use this device for sound output'
+### Running the Flask Backend
+1.  **Ensure your `.env` file is configured and you have populated the Pinecone index.**
+2.  **Run the Flask application from the `backend` directory:**
+    ```bash
+    python app.py
+    ```
+    The application will start (by default on `http://localhost:5001`). You should see output indicating it's running.
 
-  - Sometimes, you might not see anything showing up when transcribing, the most likely cause is that you haven't selected 'use this device for sound output'. This resets every now and again if you're frequently connecting and disconnecting the output devices it relies on. 
+### API Endpoint
+*   **`POST /chat`**:
+    *   Accepts a JSON payload: `{"message": "Your financial question here"}`
+    *   Returns a JSON response:
+        ```json
+        {
+          "answer": "The AI-generated answer...",
+          "source_documents": [
+            {
+              "content": "Relevant snippet from a source document...",
+              "metadata": { "source": "filename.txt", ... }
+            }
+          ]
+        }
+        ```
 
-P.S. Input is typically handled within the platform you're using. 
+## 2. Frontend Setup (Placeholder Only)
 
-### Connecting BuellerBot To Your ElevenLabs + OpenAI Account
-All you've got to do here is create your .env file, and set EL_API_KEY and OPEN_AI_KEY to = your api keys :)
+**IMPORTANT LIMITATION:** The React frontend could not be fully developed, built, or tested due to a non-functional `npm` (Node Package Manager) in the development sandbox environment. `npm` commands consistently failed (e.g., "uv_cwd" errors, inability to find installed binaries like `vite` or `react-scripts`).
+
+The code in the `frontend/chat-widget` directory represents a Vite-based React application structure with placeholder components. To make this frontend functional, you would need to:
+1.  Have a working Node.js and npm environment.
+2.  Navigate to `frontend/chat-widget`.
+3.  Run `npm install` to install dependencies (this step was failing in the sandbox).
+4.  Run `npm run dev` to start the Vite development server (also failing).
+
+### Placeholder Component Structure
+*   `src/components/ChatPopup.jsx`: Manages the visibility of the chat button and widget.
+*   `src/components/ChatWidget.jsx`: Core chat interface, handles message state and API calls to `http://localhost:5001/chat`.
+*   `src/components/MessageList.jsx`: Displays the list of messages.
+*   `src/components/MessageInput.jsx`: Provides the text input and send button.
+*   `src/App.jsx`: Renders `ChatPopup`.
+*   `src/main.jsx`: Vite entry point.
+
+## 3. Conceptual Embed Logic
+
+If the React frontend *could* be built, it would produce a JavaScript bundle (e.g., `widget.js`) and a CSS file (e.g., `widget.css`). To embed the chat widget on a website, a user would typically:
+
+1.  **Host the `widget.js` and `widget.css` files** (e.g., on a CDN or their own server).
+2.  **Add the following snippet to their HTML page:**
+
+    ```html
+    <!-- Link to the widget's CSS -->
+    <link rel="stylesheet" href="PATH_TO_YOUR_HOSTED/widget.css">
+
+    <!-- Script tag to load the widget's JavaScript bundle -->
+    <!-- The script itself should handle creating its own root DOM element if needed -->
+    <script src="PATH_TO_YOUR_HOSTED/widget.js" defer></script>
+    ```
+    The `ChatPopup.jsx` component is designed to be fixed-position and manage its own appearance once the script is loaded.
 
 ## Contributing
+(Standard contribution guidelines would go here if this were an open project - e.g., fork, branch, PR)
 
-This project is open for suggestions and contributions! In case it's your first time (as is mine), here's how you can do so:
-
-Fork the repository: Click on the 'Fork' button at the top right corner of this page. This will create a copy of this repository in your account.
-
-Clone the repository to your local machine: Click on the 'Code' button (usually green and located at the right of the repo's name), copy the URL, then open a terminal on your machine, navigate to the directory you want, and run
-
-```
-git clone URL
-Replace URL with the url you just copied.
-```
-
-Create a branch where you can make your changes. From the terminal inside your project directory, run
-
-```
-git checkout -b branch-name
-Replace branch-name with a name related to the feature you want to work on or the bug you want to fix.
-```
-
-Make your changes in this new branch.
-Then, commit and push your changes. From your terminal, run
-
-```
-git add .
-git commit -m "Your commit message"
-git push origin branch-name
-```
-
-Replace branch-name with the name of the branch you created earlier and "Your commit message" with a description of the changes you've made.
-
-Once you've pushed your changes to GitHub, you can create a pull request. Go to the repository page in your account, and you will see a 'Compare & pull request' button. Click on it, add further details if needed, and then click on 'Create pull request'.
-
-If you have any suggestions, questions, or bugs to report, please open an issue in this repository! I will do my best to work on them :)
-
-## ✍️ Questions
-
-If you have any questions or ideas, feel free to reach out at ingenious.developers.community@gmail.com
-
-## ⚠️ Disclaimer
-Buellerbot was built for *educational* purposes only. As in, you should use any free-time gained with BB to educate yourself in what matters. 
-
-*"Life moves pretty fast. If you don't stop and look around once in a while, you could miss it."* - Ferris Bueller's Day Off, 1986
+## Disclaimer
+This is a software component generated by an AI assistant. Thorough testing, security hardening, and review are required before use in production environments. Ensure compliance with API terms of service for OpenAI, Pinecone, etc.
